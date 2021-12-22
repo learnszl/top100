@@ -22,16 +22,15 @@ public class Kmp {
             if (ss[i] == pp[j])
                 j++;
             System.out.println("i:" + i + " j:" + j);
-
             if (j == n)
                 return i - n + 1;
-
         }
         return -1;
     }
 
+
     public static void main(String[] args) {
         Kmp kmp = new Kmp();
-        System.out.println(kmp.kmp("hellolla","abeabf"));
+        System.out.println(kmp.kmp("hellolla", "lla"));
     }
 }
