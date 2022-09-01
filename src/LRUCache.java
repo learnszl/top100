@@ -1,66 +1,76 @@
 import java.util.HashMap;
 
 public class LRUCache {
-    static class LinkListNode {
+
+    static class ListNode {
         int key;
-        int value;
-        LinkListNode pre;
-        LinkListNode next;
+        int val;
+        ListNode next;
+        ListNode pre;
     }
 
-    LinkListNode head, tail;
+    ListNode head, tail;
     int capacity;
-    HashMap<Integer, LinkListNode> map;
+    HashMap<Integer, ListNode> map;
 
 
     public LRUCache(int capacity) {
         this.capacity = capacity;
-        map = new HashMap<>();
-        head = new LinkListNode();
+        head = new ListNode();
+        tail = new ListNode();
         head.pre = null;
-        tail = new LinkListNode();
         tail.next = null;
         head.next = tail;
         tail.pre = head;
+        map = new HashMap<>();
     }
 
     public int get(int key) {
-        if(!map.containsKey(key))
+        if (!map.containsKey(key))
             return -1;
         moveToHead(map.get(key));
-        return map.get(key).value;
+        return map.get(key).val;
     }
 
     public void put(int key, int value) {
-        LinkListNode node = new LinkListNode();
+        ListNode node = new ListNode();
         node.key = key;
-        node.value = value;
-        if(map.containsKey(key)){
-            removeNode(map.get(key));
+        node.val = value;
+        if (map.containsKey(key)) {
+            deleteNode(map.get(key));
         }
-        map.put(key,node);
         addNode(node);
-        if(map.size() > capacity){
+        map.put(key, node);
+        if (map.size() > capacity) {
             map.remove(tail.pre.key);
-            removeNode(tail.pre);
+            deleteNode(tail.pre);
         }
-
+        System.out.println(map);
     }
 
-    private void removeNode(LinkListNode node) {
+    private void moveToHead(ListNode node) {
+        deleteNode(node);
+        addNode(node);
+    }
+
+    private void deleteNode(ListNode node) {
         node.pre.next = node.next;
         node.next.pre = node.pre;
     }
 
-    private void moveToHead(LinkListNode node) {
-        removeNode(node);
-        addNode(node);
-    }
-
-    private void addNode(LinkListNode node) {
+    private void addNode(ListNode node) {
         node.next = head.next;
-        head.next = node;
         node.next.pre = node;
         node.pre = head;
+        head.next = node;
+    }
+
+    public static void main(String[] args) {
+        LRUCache lruCache = new LRUCache(2);
+        lruCache.put(1, 1);
+        lruCache.put(2, 2);
+        System.out.println(lruCache.get(1));
+        lruCache.put(3, 3);
+        System.out.println(lruCache.get(2));
     }
 }

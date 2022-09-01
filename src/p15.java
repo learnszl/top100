@@ -1,3 +1,4 @@
+import javax.print.attribute.IntegerSyntax;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
@@ -7,30 +8,26 @@ public class p15 {
         List<List<Integer>> res = new ArrayList<>();
         Arrays.sort(nums);
         int n = nums.length;
-        for (int i = 0; i < n - 2; i++) {
+        for (int i = 0; i < n; i++) {
             if (nums[i] > 0)
-                break;
+                continue;
             if (i > 0 && nums[i] == nums[i - 1])
                 continue;
-            int left = i + 1, right = n - 1;
-            while (left < right) {
-                int sum = nums[left] + nums[right] + nums[i];
-                if (sum == 0) {
-//                    ArrayList<Integer> temp = new ArrayList<>();
-//                    temp.add(nums[i]);
-//                    temp.add(nums[left]);
-//                    temp.add(nums[right]);
-                    res.add(Arrays.asList(nums[i], nums[left], nums[right]));
-                    right--;
-                    left++;
-                    while (left < right && nums[left] == nums[left - 1])
-                        left++;
-                    while (left < right && nums[right] == nums[right + 1])
-                        right--;
-                } else if (sum > 0) {
-                    right--;
-                } else {
-                    left++;
+            int l = i + 1, r = n - 1;
+            while (l < r) {
+                int curr = nums[l] + nums[r] + nums[i];
+                if (curr > 0)
+                    r--;
+                else if (curr < 0)
+                    l++;
+                else {
+                    res.add(Arrays.asList(nums[i], nums[l], nums[r]));
+                    r--;
+                    l++;
+                    while (l < r && nums[l] == nums[l - 1])
+                        l++;
+                    while (l < r && nums[r] == nums[r + 1])
+                        r--;
                 }
             }
         }

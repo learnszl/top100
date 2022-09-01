@@ -19,6 +19,43 @@ public class Sort {
         return nums;
     }
 
+    public int[] mergeSort(int[] nums) {
+        int[] temp = new int[nums.length];
+        mergeSort(nums, 0, nums.length - 1, temp);
+        return nums;
+    }
+
+    public void mergeSort(int[] nums, int left, int right, int[] temp) {
+        if (left < right) {
+            int mid = (left + right) / 2;
+            mergeSort(nums, left, mid, temp);
+            mergeSort(nums, mid + 1, right, temp);
+            merge(nums, left, mid, right, temp);
+        }
+    }
+
+    private void merge(int[] nums, int left, int mid, int right, int[] temp) {
+        int i = left, j = mid + 1, t = 0;
+        while (i <= mid && j <= right) {
+            if (nums[i] < nums[j]) {
+                temp[t++] = nums[i++];
+            } else {
+                temp[t++] = nums[j++];
+            }
+        }
+        while (i <= mid) {
+            temp[t++] = nums[i++];
+        }
+        while (j <= right) {
+            temp[t++] = nums[j++];
+        }
+        t = 0;
+        while (left <= right) {
+            nums[left++] = temp[t++];
+        }
+    }
+
+
     private void heapify(int[] nums, int i, int n) {
         int root = i, left = 2 * i + 1, right = 2 * i + 2;
         if (left < n && nums[left] > nums[root]) {
@@ -64,8 +101,10 @@ public class Sort {
     }
 
     public static void main(String[] args) {
+        System.out.println((char) ('c' + 1));
         Sort sort = new Sort();
         System.out.println(Arrays.toString(sort.quickSort(new int[]{4, 2, 6, 26, 7, 278, 76, 43})));
         System.out.println(Arrays.toString(sort.heapSort(new int[]{4, 2, 6, 26, 7, 278, 76, 43})));
+        System.out.println(Arrays.toString(sort.mergeSort(new int[]{4, 2, 6, 26, 7, 278, 76, 43})));
     }
 }

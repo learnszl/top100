@@ -31,7 +31,7 @@ public class p394 {
 
     public static void main(String[] args) {
         p394 p394 = new p394();
-        System.out.println(p394.decodeString("3[a2[c]]"));
+        System.out.println(p394.decodeString("30[a2[c]]"));
     }
 }
 
