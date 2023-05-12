@@ -1,138 +1,147 @@
-
-//import java.util.Scanner;
-//
-//public class Main1 {
-//    public static void main(String[] args) {
-//        Scanner sc = new Scanner(System.in);
-//        String[] s = sc.nextLine().split(" ");
-//        System.out.println(helper(s[0],s[1]));
-//    }
-//
-//    private static int helper(String s1, String s2) {
-//        int a = Integer.parseInt(s1);
-//        int b = Integer.parseInt(s2);
-//        if (a % b == 0 || b % a == 0)
-//            return 0;
-//        return -1;
-//    }
-//}
-// 本题为考试多行输入输出规范示例，无需提交，不计分。
-//import java.util.Scanner;
-//
-//public class Main1 {
-//    public static void main(String[] args) {
-//        Scanner sc = new Scanner(System.in);
-//        String s = sc.nextLine();
-//        int n = s.length();
-//        if (n % 2 != 0) {
-//            int re = 0, j = 0;
-//            String rede = "rede";
-//            for (int i = 0; i < n; i++) {
-//                if (s.charAt(i) != rede.charAt(j)) {
-//                    re++;
-//                    j = (j + 1) % 4;
-//                }
-//            }
-//            int de = 0, k = 0;
-//            String dere = "dere";
-//            for (int i = 0; i < n; i++) {
-//                if (s.charAt(i) != dere.charAt(k)) {
-//                    de++;
-//                    k = (k + 1) % 4;
-//                }
-//            }
-//            System.out.println(Math.min(de, re));
-//        } else {
-//
-//
-//        }
-//    }
-//}
-import test.Main;
-
 import java.util.*;
 
 public class Main1 {
     public static void main(String[] args) {
-        Scanner sc = new Scanner(System.in);
-        int n = Integer.parseInt(sc.nextLine());
-        int[] nums = new int[n];
-        String[] s = sc.nextLine().split(" ");
-        HashSet<Integer> set = new HashSet<>();
+        Scanner scanner = new Scanner(System.in);
+        String[] s0 = scanner.nextLine().split(" ");
+        int n = Integer.parseInt(s0[0]);
+        int k = Integer.parseInt(s0[1]);
+        String[] s = scanner.nextLine().split(" ");
+        int[] weight = new int[n];
+        long sum = 0;
         for (int i = 0; i < n; i++) {
-            nums[i] = Integer.parseInt(s[i]);
-            set.add(nums[i]);
-
+            weight[i] = Integer.parseInt(s[i]);
+            sum += weight[i];
         }
-        int res = 0;
-        HashMap<Integer, int[]> map = new HashMap<>();
-        for (int in :set) {
-            int[] fre = new int[n];
-            for (int j = n - 1; j >= 0; j--) {
-                if (j == n - 1) {
-                    fre[j] = nums[j] == in ? 1 : 0;
-                } else {
-                    fre[j] = nums[j] == in? fre[j + 1] + 1 : fre[j + 1];
-                }
+        Arrays.sort(weight);
+        int res = n;
+        while (res > 0) {
+            double a = sum / (double) res;
+            if ((double) weight[res - 1] <= a * k) {
+                System.out.println(res);
+                break;
             }
-            map.put(in,fre);
+//            System.out.println(a);
+            sum -= weight[res - 1];
+            res--;
         }
-        for (int i = 0; i < n; i++) {
-            int cur = nums[i];
-            for (int j = i + 1; j < n; j++) {
-                if (nums[j] < cur) {
-                    res += map.get(cur)[j];
-                }
-            }
-        }
-        System.out.println(res);
     }
+//
 }
-//    import java.util.Scanner;
-//
-//    public class Main1 {
-//        public static void main(String[] args) {
-//            Scanner sc = new Scanner(System.in);
-//            int n = Integer.parseInt(sc.nextLine());
-//            int[] nums = new int[n];
-//            String[] s = sc.nextLine().split(" ");
-//            int maxadd = 1,maxeven = 1;
-//            int addsum = 0,evensum = 0;
-//            long sum = 0;
-//            for (int i = 0; i < n; i++) {
-//                nums[i] = Integer.parseInt(s[i]);
-//                if (i % 2 == 0 && nums[i] > maxadd){
-//                    maxadd = nums[i];
-//                }
-//                if (i % 2 != 0 && nums[i] > maxeven){
-//                    maxeven = nums[i];
-//                }
-//                sum += nums[i];
+//    public static void main(String[] args) {
+//        Scanner scanner = new Scanner(System.in);
+//        int n = Integer.parseInt(scanner.nextLine());
+//        String[] left = scanner.nextLine().split(" ");
+//        String[] right = scanner.nextLine().split(" ");
+//        String[] target = scanner.nextLine().split(" ");
+//        int[] nums = new int[70001];
+//        for (int i = 0; i < 70001; i++) {
+//            if (nums[i] != 0)
+//                continue;
+//            String s = String.valueOf(i);
+//            int res = s.charAt(0) - '0';
+//            for (int j = 1; j < s.length(); j++) {
+//                res ^= (s.charAt(j) - '0');
 //            }
-//            if (maxadd == maxeven){
-//                for (int i = 0; i < n; i++) {
-//                    if (i % 2 == 0 && maxadd == nums[i]){
-//                        addsum++;
-//                    }
-//                    if (i % 2 !=0 && maxeven == nums[i]){
-//                        evensum++;
-//                    }
-//                }
-//                if (addsum > evensum){
-//                    maxeven++;
-//                }else{
-//                    maxadd++;
+//            if (i < 7000) {
+//                for (int j = 0; j < 9; j++) {
+//                    int tmp = res;
+//                    tmp ^= j;
+//                    nums[i * 10 + j] = tmp;
 //                }
 //            }
-//            long total = 0;
-//            for (int i = 0; i < n; i++) {
-//                if (i % 2 == 0){
-//                    total += maxadd;
-//                }else{
-//                    total += maxeven;
-//                }
-//            }
-//
-//            System.out.println(total - sum);
+//            nums[i] = res;
 //        }
+//        for (int i = 0; i < n; i++) {
+//            int l = Integer.parseInt(left[i]);
+//            int r = Integer.parseInt(right[i]);
+//            int t = Integer.parseInt(target[i]);
+//            int res = 0;
+//            for (int j = l; j <= r; j++) {
+//                if (nums[j] == t) {
+//                    res++;
+//                }
+//            }
+//            System.out.print(res + " ");
+//        }
+//    }
+//    public static void main(String[] args) {
+//        Scanner scanner = new Scanner(System.in);
+//        String[] s = scanner.nextLine().split(" ");
+//        int n = Integer.parseInt(s[0]);
+//        int m = Integer.parseInt(s[1]);
+//        long k = Long.parseLong(s[2]);
+//        String[] strings = scanner.nextLine().split(" ");
+//        ArrayList<Integer> list = new ArrayList<>();
+//        for (int i = 0; i < n; i++) {
+//            list.add(Integer.parseInt(strings[i]));
+//        }
+//        for (int i = 0; i < n; i++) {
+//            list.add(Integer.parseInt(strings[n - i - 1]));
+//        }
+//        int size = 2 * n;
+//        while (k > size) {
+//            k = k - size;
+//        }
+//        System.out.println(list.get((int) k - 1));
+//    }
+//    public static void main(String[] args) {
+//        Scanner scanner = new Scanner(System.in);
+//        int n = scanner.nextInt();
+//        int[] nums = new int[n];
+//        int pos = 0, neg = 0, zero = 0, max = Integer.MIN_VALUE;
+//        for (int i = 0; i < n; i++) {
+//            nums[i] = scanner.nextInt();
+//            if (nums[i] > 0) {
+//                pos++;
+//            } else if (nums[i] < 0) {
+//                neg++;
+//            } else {
+//                zero++;
+//            }
+//            max = Math.max(max, Math.abs(nums[i]));
+//        }
+//        long res = 0;
+//        for (int i = 0; i < n; i++) {
+//            if (nums[i] < 0) {
+//                res = -nums[i] - 1 + res;
+//            } else if (nums[i] > 0) {
+//                res = nums[i] - 1 + res;
+//            } else {
+//                res++;
+//            }
+//        }
+//        if (max >= 7) {
+//            res -= 6;
+//        } else {
+//            res = res - (max - 1) + 7 - max;
+//        }
+//        if (neg % 2 == 0) {
+//            System.out.println(res);
+//        } else {
+//            if (zero == 0)
+//                System.out.println(res + 2);
+//            else
+//                System.out.println(res);
+//        }
+//    }
+//    public static void main(String[] args) {
+//        Scanner scanner = new Scanner(System.in);
+//        String[] s = scanner.nextLine().split(" ");
+//        int n = Integer.parseInt(s[0]);
+//        int m = Integer.parseInt(s[1]);
+//        long k = Long.parseLong(s[2]);
+//        String[] strings = scanner.nextLine().split(" ");
+//        ArrayList<Integer> list = new ArrayList<>();
+//        for (int i = 0; i < n; i++) {
+//            list.add(Integer.parseInt(strings[i]));
+//        }
+//        for (int i = 0; i < n; i++) {
+//            list.add(Integer.parseInt(strings[n - i - 1]));
+//        }
+//        int size = 2 * n;
+//        if (k > size) {
+//            k = k - size;
+//        }
+//        System.out.println(list.get((int) k - 1));
 //    }

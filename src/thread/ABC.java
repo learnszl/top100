@@ -11,6 +11,7 @@ public class ABC {
     private int times; // 控制打印次数
     private int state = 0;   // 当前状态值：保证三个线程之间交替打印
     private final ReentrantLock lock = new ReentrantLock();
+    private Object o = new Object();
 
     public ABC(int times) {
         this.times = times;
@@ -18,17 +19,35 @@ public class ABC {
 
     private void printLetter(String name, int targetNum) {
         for (int i = 0; i < times; ) {
-            lock.lock();
-            if (state % 3 == targetNum) {
-                state++;
-                i++;
-                System.out.print(name);
+            synchronized (o) {
+                o.notifyAll();
+//            lock.lock();
+                if (state % 3 == targetNum) {
+                    state++;
+                    i++;
+                    System.out.print(name);
+                }else {
+                    try {
+                        o.wait();
+                    } catch (InterruptedException e) {
+                        e.printStackTrace();
+                    }
+                }
+//            lock.unlock();
             }
-            lock.unlock();
         }
     }
 
     public static void main(String[] args) {
+        String s = "szl loves lmz";
+        char [] str = new char[s.length()];
+        str[0] = 's';
+        str[1] = 'z';
+        str[0] = 's';
+        str[0] = 's';
+        str[0] = 's';
+
+
         ABC loopThread = new ABC(10);
         Thread a = new Thread() {
             public void run() {

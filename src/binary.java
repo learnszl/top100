@@ -5,7 +5,7 @@
  */
 public class binary {
     public static void main(String[] args) {
-        System.out.println(binary.binary_search(new int[]{0, 1, 2, 3, 4, 5, 6}, 0));
+        System.out.println(binary.binary_search(new int[]{0,0, 1, 2, 3, 4, 5, 6}, 0));
     }
 
     public static int binary_search(int[] nums, int target) {
